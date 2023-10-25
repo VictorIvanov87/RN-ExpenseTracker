@@ -7,6 +7,7 @@ import { GLOBAL_STYLES } from "./constants/styles";
 import ManageExpense from "./screen/ManageExpense";
 import RecentExpense from "./screen/RecentExpense";
 import AllExpenses from "./screen/AllExpenses";
+import IconButton from "./components/UI/IconButton";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -14,12 +15,15 @@ const BottomTabs = createBottomTabNavigator();
 const ExpensesOverview = () => {
   return (
     <BottomTabs.Navigator
-      screenOptions={{
+      screenOptions={({ navigation }) => ({
         headerTintColor: "white",
         headerStyle: { backgroundColor: GLOBAL_STYLES.colors.primary500 },
         tabBarStyle: { backgroundColor: GLOBAL_STYLES.colors.primary500 },
-        tabBarActiveTintColor: GLOBAL_STYLES.colors.accent500
-      }}
+        tabBarActiveTintColor: GLOBAL_STYLES.colors.accent500,
+        headerRight: ({ tintColor }) => (
+          <IconButton name="plus" color={tintColor} onPress={() => navigation.navigate("ManageExpense")} />
+        )
+      })}
     >
       <BottomTabs.Screen
         name="RecentExpense"
@@ -48,9 +52,18 @@ const App = () => {
     <>
       <StatusBar style="light" />
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: GLOBAL_STYLES.colors.primary500 },
+            headerTintColor: "white"
+          }}
+        >
           <Stack.Screen name="ExpensesOverview" component={ExpensesOverview} options={{ headerShown: false }} />
-          <Stack.Screen name="ManageExpense" component={ManageExpense} />
+          <Stack.Screen
+            name="ManageExpense"
+            component={ManageExpense}
+            options={{ title: "Manage Expense", presentation: "modal" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>
