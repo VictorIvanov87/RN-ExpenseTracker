@@ -1,7 +1,11 @@
+import { useContext } from "react";
+import { ExpensesContext } from "../store/expenses-context";
 import ExpensesOutput from "../components/ExpensesOutput/ExpensesOutput";
 
 const AllExpenses = () => {
-  return <ExpensesOutput periodName="Total" />;
+  const expensesCtx = useContext(ExpensesContext);
+
+  return <ExpensesOutput periodName="Total" expenses={expensesCtx.expenses} />;
 };
 
 export default AllExpenses;
